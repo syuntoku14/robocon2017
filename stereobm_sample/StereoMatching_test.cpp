@@ -72,9 +72,9 @@ int main()
 
 	//-- 2. Call the constructor for StereoBM
 
-	int ndisparities = 16 * 5;   /**< Range of disparity */
+	int ndisparities = 16 *5 ;   /**< Range of disparity */
 
-	int SADWindowSize = 21; /**< Size of the block window. Must be odd */
+	int SADWindowSize = 9; /**< Size of the block window. Must be odd */
 
 
 

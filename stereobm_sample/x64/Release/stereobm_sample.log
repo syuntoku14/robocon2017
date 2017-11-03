@@ -1,5 +1,7 @@
 ﻿  StereoMatching_test.cpp
   コード生成しています。
-  All 62 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  1 of 62 functions ( 1.6%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
   stereobm_sample.vcxproj -> C:\Users\syuntoku\documents\visual studio 2017\Projects\robocon2017\x64\Release\stereobm_sample.exe

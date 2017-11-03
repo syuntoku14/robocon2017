@@ -1,3 +1,8 @@
+/*
+*@ stereo calibration and stereo matching
+*@ prease prepare more than five images of checkerboads and one image to measure depth 
+*/
+
 #include <opencv2\opencv.hpp>
 #include<opencv2\calib3d.hpp>
 #include<opencv2\imgcodecs.hpp>
@@ -10,16 +15,16 @@ using namespace cv;
 int main(int argc, char** argv) {
 	const int numberOfCheckerPatterns = 5; //チェッカーパターンの枚数
 	vector<Mat> checkerImg1, checkerImg2;  //チェッカーパターン画像
-	string filename_leftImg = "aloeL.jpg";
-	string filename_rightImg = "aloeR.jpg";
+	string filename_leftImg = "imL.png";
+	string filename_rightImg = "imR.png";
 
 	Mat sceneImg1 = imread(filename_leftImg,IMREAD_GRAYSCALE);
-	Mat sceneImg2 = imread(filename_rightImg,IMREAD_GRAYSCALE); //flag==0でグレースケール
+	Mat sceneImg2 = imread(filename_rightImg,IMREAD_GRAYSCALE); //グレースケール
 
 	if (sceneImg1.empty() || sceneImg2.empty()){
 		std::cout << " --(!) Error reading images " << std::endl; return -1;
 	}
-
+	
 	Size imageSize;
 	const Size patternSize(9, 6); //チェッカーパターンの交点の数
 	const int MARKER_SIZE = 10; //マーカーの1マスのサイズ(mm)
@@ -34,29 +39,30 @@ int main(int argc, char** argv) {
 	Mat distCoeffs1, distCoeffs2;		//レンズ歪み行列 
 	Mat R, T, E, F, R1, R2, P1, P2, Q;	//2眼レンズの間の関係を保持する行列群
 
-										//stereo
-	Mat disp = Mat(sceneImg1.rows, sceneImg1.cols, CV_16S);
-	Mat	disp8 = Mat(sceneImg1.rows, sceneImg1.cols, CV_8UC1);
+	//stereo
+	Mat disp;
+	Mat	disp8;
 	Rect roi1, roi2;
 	Mat xyz;
-	int blockSize = 0, numberOfDisparities = 0;
+	int blockSize = 0, numberOfDisparities = 0,MinDisparity=0;
 	Ptr<StereoBM> bm = StereoBM::create();
 
 	//ブロックマッチングのパラメータを決定する
 	//numberOfDisparities = numberOfCheckerPatterns > 0 ? numberOfDisparities : sceneImg1.cols / 8;
-	numberOfDisparities = 16*10; //16の倍数でないといけない
+	numberOfDisparities = 16*5; //16の倍数でないといけない、こいつが大きくなると画面が狭まる 左右のカメラの見える範囲が原因？
+	blockSize =5;//大きいと滑らかになるけど正確ではない
 	bm->setROI1(roi1);
 	bm->setROI2(roi2);
 	bm->setPreFilterCap(31);
-	bm->setBlockSize(blockSize > 0 ? blockSize : 9);
-	bm->setMinDisparity(0);
+	bm->setBlockSize(blockSize);
+	bm->setMinDisparity(MinDisparity);
 	bm->setNumDisparities(numberOfDisparities);
 	bm->setTextureThreshold(10);
 	bm->setUniquenessRatio(15);
 	bm->setSpeckleWindowSize(100);
 	bm->setSpeckleRange(32);
 	bm->setDisp12MaxDiff(1);
-
+	
 	//世界座標を決める
 	for (int i = 0; i < numberOfCheckerPatterns; i++) {
 		for (int j = 0; j < patternSize.area(); j++) {
@@ -80,7 +86,7 @@ int main(int argc, char** argv) {
 	//画像サイズを得る
 	imageSize = Size(checkerImg1[0].cols, checkerImg1[0].rows);
 
-	//チェックパターンの交点座標を求め、imgePointsに格納する
+	//チェックパターンの交点座標を求め、imagePointsに格納する
 	for (int i = 0; i < numberOfCheckerPatterns; i++) {
 		cout << "Find corners from image" << i + 1;\
 		if (findChessboardCorners(checkerImg1[i], patternSize, imagePoints1[i]) &&
@@ -110,19 +116,23 @@ int main(int argc, char** argv) {
 		cameraMatrix2, distCoeffs2,
   		imageSize, R, T, R1, R2, P1, P2, Q);
 	
-	
 	//視差画像の計算
 	bm->compute(sceneImg1, sceneImg2, disp);
 
+	//視差の最大値と最小値を出す
+	double minVal; double maxVal;
+	minMaxLoc(disp, &minVal, &maxVal);
+	printf("Min disp: %f Max value: %f \n", minVal, maxVal);
+	
 	//視差画像を距離に変換
 	reprojectImageTo3D(disp, xyz, Q, true);
 
 	//視差画像を変換して表示
+	//①numberOfDisparities*16.と同じ結果になった
+	//disp.convertTo(disp8, CV_8U, 255 /(maxVal-minVal));
+	//②教科書通り
 	disp.convertTo(disp8, CV_8U, 255 / (numberOfDisparities*16.));
-	//disp.convertTo(disp8, CV_8U, 255 / (numberOfDisparities));
-	const string WINDOW_DISP = "Disparity Map";
-	namedWindow(WINDOW_DISP, CV_WINDOW_AUTOSIZE);
-	imshow(WINDOW_DISP, disp8);
+	imshow("Disparity Map", disp8);
 	waitKey(0);
 	imwrite("disparity.bmp", disp8);
 	
