@@ -1,0 +1,5 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets(647,5): warning MSB8015: "C:\Users\syuntoku\documents\visual studio 2017\Projects\robocon2017\get_pictures\x64\Release\get_pictures.tlog\link.command.1.tlog" の内容が無効であるため、すべてのソース ファイルを強制的にリビルドしています。
+  コード生成しています。
+c:\users\syuntoku\documents\visual studio 2017\projects\robocon2017\get_pictures\get_stereo_pictures.cpp : fatal error C1301: プログラム データベース C:\Users\syuntoku\documents\visual studio 2017\Projects\robocon2017\x64\Release\get_pictures.ipdb へのアクセス エラー、形式が無効です、データベースを削除して再構築してください。
+LINK : fatal error LNK1257: コードの生成に失敗しました。
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets(647,5): warning MSB8015: "C:\Users\syuntoku\documents\visual studio 2017\Projects\robocon2017\get_pictures\x64\Release\get_pictures.tlog\link.command.1.tlog" の内容が無効であるため、すべてのソース ファイルを強制的にリビルドしています。

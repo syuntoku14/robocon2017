@@ -47,6 +47,12 @@ void  make_track() {
 	createTrackbar("MAX_S", win_track, &max_s, 255, onTrackbar);
 	createTrackbar("MAX_V", win_track, &max_v, 255, onTrackbar);
 }
+
+//hsvの値の保存
+void save_hsv_values() {
+	
+}
+
 //ウィンドウの生成
 void make_windows() {
 	namedWindow(win_src, CV_WINDOW_AUTOSIZE);
