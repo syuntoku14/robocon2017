@@ -25,8 +25,8 @@ void insertAndShowImg() {
 void get_picture() {
 	count_get++;
 
-	string checkBoad_L_filename="./checkBoad/"+to_string(count_get)+"L.jpg";
-	string checkBoad_R_filename = "./checkBoad/" + to_string(count_get) + "R.jpg";
+	string checkBoad_L_filename="../checkBoad/"+to_string(count_get)+"L.jpg";
+	string checkBoad_R_filename = "../checkBoad/" + to_string(count_get) + "R.jpg";\
 	imwrite(checkBoad_L_filename,picture_L);
 	imwrite(checkBoad_R_filename, picture_R);
 	cout << "got successfully!" << endl;

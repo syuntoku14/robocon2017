@@ -8,6 +8,8 @@
 #include<cmath>
 #include<string>
 #include<opencv2\highgui.hpp>
+#include<fstream>
+
 using namespace std;
 using namespace cv;
 
@@ -50,7 +52,13 @@ void  make_track() {
 
 //hsvの値の保存
 void save_hsv_values() {
-	
+	fstream fs;
+	fs.open("hsv.txt",ios::out);
+	string hsv_values = to_string(min_h) + "," + to_string(min_s) + "," + to_string(min_v)
+		+ "," + to_string(max_h) + "," + to_string(max_s) + "," + to_string(max_v);
+	fs << hsv_values;
+	fs.close();
+
 }
 
 //ウィンドウの生成
@@ -98,6 +106,7 @@ int main(int argc, char **args) {
 		imshows();
 
 		if (waitKey(1) == 'q') {
+			save_hsv_values();
 			break;
 		}
 	}
