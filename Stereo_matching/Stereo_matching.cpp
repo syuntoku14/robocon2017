@@ -15,8 +15,8 @@ using namespace cv;
 int main(int argc, char** argv) {
 	const int numberOfCheckerPatterns = 5; //チェッカーパターンの枚数
 	vector<Mat> checkerImg1, checkerImg2;  //チェッカーパターン画像
-	string filename_leftImg = "imL.png";
-	string filename_rightImg = "imR.png";
+	string filename_leftImg = "../depth_picture/imL.jpg";
+	string filename_rightImg = "../depth_picture/imR.jpg";
 
 	Mat sceneImg1 = imread(filename_leftImg,IMREAD_GRAYSCALE);
 	Mat sceneImg2 = imread(filename_rightImg,IMREAD_GRAYSCALE); //グレースケール
@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
 	}
 	
 	Size imageSize;
-	const Size patternSize(9, 6); //チェッカーパターンの交点の数
+	const Size patternSize(7, 5); //チェッカーパターンの交点の数
 	const int MARKER_SIZE = 10; //マーカーの1マスのサイズ(mm)
 
 	vector<vector<Point3f> > worldPoints(numberOfCheckerPatterns); //チェッカー交点座標と対応する世界座標の値を格納する行列
