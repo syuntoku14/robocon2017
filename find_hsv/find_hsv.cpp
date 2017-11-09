@@ -86,6 +86,17 @@ void process_images() {
 	morphologyEx(img_masked, img_masked, MORPH_OPEN, element4, Point(-1, -1), 1);
 }
 
+void save_hsv_value() {
+	FileStorage fs("hsv_value.xml", FileStorage::WRITE);
+	fs << "min_h" << min_h;
+	fs << "min_s" << min_s;
+	fs << "min_v" << min_v;
+	fs << "max_h" << max_h;
+	fs << "max_s" << max_s;
+	fs << "max_v" << max_v;
+	fs.release();
+}
+
 int main(int argc, char **args) {
 	//ƒrƒfƒI0“Ç‚Ý‚Æ‚è
 	VideoCapture capture(1);
@@ -110,5 +121,8 @@ int main(int argc, char **args) {
 			break;
 		}
 	}
+
+	save_hsv_value();
+
 	return 0;
 }

@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
 	}
 	
 	Size imageSize;
-	const Size patternSize(7, 5); //チェッカーパターンの交点の数
+	const Size patternSize(9, 6); //チェッカーパターンの交点の数
 	const int MARKER_SIZE = 10; //マーカーの1マスのサイズ(mm)
 
 	vector<vector<Point3f> > worldPoints(numberOfCheckerPatterns); //チェッカー交点座標と対応する世界座標の値を格納する行列
@@ -116,6 +116,10 @@ int main(int argc, char** argv) {
 		cameraMatrix2, distCoeffs2,
   		imageSize, R, T, R1, R2, P1, P2, Q);
 	
+	FileStorage fs("../Q_value.xml", FileStorage::WRITE);
+	fs << "Q_value" << Q;
+	fs.release();
+
 	//視差画像の計算
 	bm->compute(sceneImg1, sceneImg2, disp);
 
@@ -129,9 +133,9 @@ int main(int argc, char** argv) {
 
 	//視差画像を変換して表示
 	//①numberOfDisparities*16.と同じ結果になった
-	//disp.convertTo(disp8, CV_8U, 255 /(maxVal-minVal));
+	disp.convertTo(disp8, CV_8U, 255 /(maxVal-minVal));
 	//②教科書通り
-	disp.convertTo(disp8, CV_8U, 255 / (numberOfDisparities*16.));
+	//disp.convertTo(disp8, CV_8U, 255 / (numberOfDisparities*16.));
 	imshow("Disparity Map", disp8);
 	waitKey(0);
 	imwrite("disparity.bmp", disp8);
