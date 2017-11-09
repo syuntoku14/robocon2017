@@ -75,8 +75,8 @@ int main(int argc, char** argv) {
 	//2眼分のチェッカーパターン画像を読み込む
 	for (int i = 0; i < numberOfCheckerPatterns; i++) {
 		stringstream stream1, stream2;
-		stream1 <<"../checkBoad/"<< i + 1 <<"L"<< ".jpg";
-		stream2 <<"../checkBoad/"<< i + 1 <<"R"<< ".jpg";
+		stream1 <<"../checkBoard/"<< i + 1 <<"L"<< ".jpg";
+		stream2 <<"../checkBoard/"<< i + 1 <<"R"<< ".jpg";
 		string fileName1 = stream1.str();
 		string fileName2 = stream2.str();
 		checkerImg1.push_back(imread(fileName1, 0));

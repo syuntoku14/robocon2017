@@ -33,10 +33,10 @@ void get_depth_picture() {
 void get_picture() {
 	count_get++;
 
-	string checkBoad_L_filename="../checkBoad/"+to_string(count_get)+"L.jpg";
-	string checkBoad_R_filename = "../checkBoad/" + to_string(count_get) + "R.jpg";\
-	imwrite(checkBoad_L_filename,picture_L);
-	imwrite(checkBoad_R_filename, picture_R);
+	string checkBoard_L_filename="../checkBoard/"+to_string(count_get)+"L.jpg";
+	string checkBoard_R_filename = "../checkBoard/" + to_string(count_get) + "R.jpg";\
+	imwrite(checkBoard_L_filename,picture_L);
+	imwrite(checkBoard_R_filename, picture_R);
 	cout << "got successfully!" << endl;
 	cout << "G key --> get pictures\nQ key --> quit\nD key-->get depth picture" << endl;
 }
